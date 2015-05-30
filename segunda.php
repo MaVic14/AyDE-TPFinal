@@ -79,8 +79,8 @@ if($usuarioNombre == "Sergio"){
 
 <form action="" method="post" class="asistencia">
 	<p align="center">
-	<input class="btn btn-success" id= "1" name="alta" type="submit" value="Asistire" >
-	<input class="btn btn-danger" name="baja" type="submit" value="No Asistire"></p>
+	<input class="btn btn-success" id= "1" name="alta" type="submit" value="Asistire" onclick="abrirPopUpAlta()">
+	<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="abrirPopUpBaja()"></p>
 	<br>
 </form>
 <style type="text/css"> 
@@ -108,3 +108,13 @@ if (isset($_POST["baja"])) {
 		}
 ?> 
 <?php include("includes/footer.php"); ?>
+<script>
+function abrirPopUpAlta()
+{
+alert("Usted ha sido dado de alta en el sistema. Recuerde asistir al comedor a las 13:00 hs puntual");
+}
+function abrirPopUpBaja()
+{
+alert("Usted ha sido dado de baja en el sistema");
+}
+</script>
