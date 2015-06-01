@@ -12,6 +12,7 @@ if (!isset($headers['Authorization'])){
     header('WWW-Authenticate: NTLM');
     exit;
 }
+define("NROLEGAJO_ADMIN",1000);
 
 $auth = $headers['Authorization'];
 
@@ -51,19 +52,41 @@ if (substr($auth,0,5) == 'NTLM ') {
 session_start(); 
 $link = mysql_connect("localhost", "root"); 
 mysql_select_db("baseayde", $link);
+//Datos del insert
 $numeroDia = date("N");
 $letraDia = date ("l");
-echo "<div align=\"center\"> Bienvenido ".ucfirst($user).". Tu PC esta alojada como $domain/$workstation"."</div><br>";
-$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
-echo "<em><u>Dia</em></u>: ".mysql_result($result, 0, "letraDia")."<br>";
-echo "<em><u>Plato</em></u>: ".mysql_result($result, 0, "plato")."<br>"; 
-echo "<em><u>Guarnicion</em></u>: ".mysql_result($result, 0, "guarnicion")."<br>"; 
-$usuarioNombre = $user;
-if($usuarioNombre == "Sergio"){
-	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia", $link);
-	echo "<em><u>Cantidad de comensales</em></u>: ".mysql_result($result, 0)."<br>";
+$nroLegajo = null;
+//Datos del insert
+$queryAsistencia = null;
+
+$usuarioCorto = explode('@', $user);
+$usuarioCorto_ = ltrim($usuarioCorto[0]) + '';//Agregue estas comillas porque no me tomaba el String
+
+$resultEmpleados = mysql_query("SELECT * FROM empleados where UsuarioCorto = $usuarioCorto_", $link);
+$row = mysql_fetch_row($resultEmpleados);
+
+if($resultEmpleados == null){
+
+	echo "<div align=\"center\"> LOS DATOS INGRESADOS SON INCORRECTOS.</div><br>";
+	return;
+	
+} else {
+
+	echo "<div align=\"center\"> Bienvenido ".ucfirst($row[1]).". Tu PC esta alojada como $domain/$workstation"."</div><br>";
+	$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
+	echo "<em><u>Dia</em></u>: ".mysql_result($result, 0, "letraDia")."<br>";
+	echo "<em><u>Plato</em></u>: ".mysql_result($result, 0, "plato")."<br>";
+	echo "<em><u>Guarnicion</em></u>: ".mysql_result($result, 0, "guarnicion")."<br>";
+	
+	$nroLegajo = $row[0];
+	
+	if($nroLegajo == NROLEGAJO_ADMIN){
+		$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia", $link);
+		echo "<em><u>Cantidad de comensales</em></u>: ".mysql_result($result, 0)."<br>";
+	}
+	$queryAsistencia = mysql_query("SELECT * FROM asistencia where legajo = $nroLegajo");
 }
-?> 
+?>
 
 <html lang="en">
 <head>
@@ -79,7 +102,7 @@ if($usuarioNombre == "Sergio"){
 
 <form action="" method="post" class="asistencia">
 	<p align="center">
-	<input class="btn btn-success" id= "1" name="alta" type="submit" value="Asistire" onclick="abrirPopUpAlta()">
+	<input class="btn btn-success" id= "1" name="alta" type="submit" onclick="abrirPopUpAlta()" value="Asistire">
 	<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="abrirPopUpBaja()"></p>
 	<br>
 </form>
@@ -93,16 +116,18 @@ background:#aaa;
 
 </style> 
 
-<?php 
- if (isset($_POST["alta"])) {
-        $sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre)";
-        $sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."')";
-        mysql_query($sql);
-        $status = "ok";
+<?php
+if (isset($_POST["alta"])) {
+	 
+		$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
+		$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
+		mysql_query($sql);
+		$status = "ok";
+
 }	
 if (isset($_POST["baja"])) {
         $sql = "DELETE FROM asistencia ";
-        $sql.= "WHERE usuarioNombre = ('".$user."')";
+        $sql.= "WHERE legajo = ('".$nroLegajo."')";
         mysql_query($sql);
         $status = "ok";
 		}
