@@ -1,3 +1,8 @@
+CREATE DATABASE `baseayde` /*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
+
+USE `baseayde`;
+
+
 -- phpMyAdmin SQL Dump
 -- version 4.3.11
 -- http://www.phpmyadmin.net
@@ -6,9 +11,6 @@
 -- Tiempo de generación: 29-05-2015 a las 04:41:41
 -- Versión del servidor: 5.6.24
 -- Versión de PHP: 5.6.8
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,11 +27,13 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `asistencia`
 --
+--drop table `asistencia`
 
 CREATE TABLE IF NOT EXISTS `asistencia` (
   `numeroDia` int(11) NOT NULL,
   `letraDia` text NOT NULL,
-  `usuarioNombre` text NOT NULL
+  `usuarioNombre` text NOT NULL,
+  `legajo`  int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -63,6 +67,20 @@ INSERT INTO `comidas` (`numeroDia`, `letraDia`, `plato`, `guarnicion`) VALUES
 (4, 'Jueves', 'Tartas y Pascualinas', 'Ensaladas o Arroz'),
 (5, 'Viernes', 'Pizzas', 'Ensaladas o Arroz');
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIEasistenciaasistenciaNT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE IF NOT EXISTS `empleados` (
+  `UsuarioLargo` text NULL,
+  `UsuarioCorto` text NOT NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `asistencia`
+--
+
+INSERT INTO `empleados` (`UsuarioCorto`) VALUES ('7');
+
+
