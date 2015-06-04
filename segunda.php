@@ -1,3 +1,25 @@
+<?php
+$today = getdate();
+ print "la hora del server es: "  . $today['hours'] ;
+?>
+
+<?PHP
+
+$post_hour = 20;
+$today = getdate();
+
+$hour_difference = $today['hours'] - $post_hour;
+
+Print ".           Hasta las 20hs -ver zonahoraria- se puede dar de Baja, ahora hay de diferencia = " . $hour_difference;
+if ($hour_difference < 0){
+  Print ".         En horario ok " ;
+}
+else { 
+  Print ".         En horario MAL! ";
+}
+
+
+?>
 
 <?php include("includes/top_page.php"); ?>
 <?php include("includes/header.php"); ?>
@@ -63,6 +85,7 @@ $usuarioCorto = explode('@', $user);
 $usuarioCorto_ = ltrim($usuarioCorto[0]) + '';//Agregue estas comillas porque no me tomaba el String
 
 $resultEmpleados = mysql_query("SELECT * FROM empleados where UsuarioCorto = $usuarioCorto_", $link);
+echo "<em><u>usuarioCorto</em></u>:  $usuarioCorto_ <br> ";
 $row = mysql_fetch_row($resultEmpleados);
 
 if($resultEmpleados == null){
@@ -117,7 +140,16 @@ background:#aaa;
 </style> 
 
 <?php
-if (isset($_POST["alta"])) {
+
+$post_hour = 20;
+$today = getdate();
+
+$hour_difference = $today['hours'] - $post_hour;
+
+//Print "Hasta las 20hs se puede dar de Baja, ahora hay de diferencia = " . $hour_difference;
+if ($hour_difference < 0){
+  //Print " En horario ok " ;
+  if (isset($_POST["alta"])) {
 	 
 		$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
 		$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
@@ -131,6 +163,28 @@ if (isset($_POST["baja"])) {
         mysql_query($sql);
         $status = "ok";
 		}
+
+else { 
+  Print " AVISO DEL IF, PARTE ELSE: En horario MAL! ";
+ //avisoFueraDeHorario();
+//<html lang="en">
+//<head>
+// <title>Curso de JavaScript</title> </head>     
+//  <body onload="alert('Hola');">
+//   <p>Tutorial de JavaScript</p>   
+//    </body></html>
+//echo "<script type='text/javascript'>alert('Usted')</script>";
+//<script type="text/javascript">
+//alert('Mensaje manejado con JavaScript');
+//alert("Ya no puede inscribirse en el sistema, se ha cerrado porque son más de las 20hs (u 11hs) -ver zonahoraria-");
+
+//<script language="javascript">
+//alert("Error al insertar valores <?php echo $hour_difference;
+
+}
+}
+
+
 ?> 
 <?php include("includes/footer.php"); ?>
 <script>
