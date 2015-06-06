@@ -165,3 +165,32 @@ function abrirPopUpBaja()
 alert("Usted ha sido dado de baja en el sistema");
 }
 </script>
+
+<!--Acá empieza lo de modificar el menú -->
+<html>
+<body>
+<form action="segunda.php" method="post"> 
+	<p align="center">
+	<u> <b> <tittle>CAMBIO DE MENÚ<tittle/> </b> </u> <br/>
+	Ingrese el día para el cual quiere cambiar el menú
+	<input type="text" name="dia" /> <bR />
+	Ingrese el nuevo menú para ese día
+	<input type="text" name="nuevo" /> <bR />
+	<input type="submit" value="Actualizar Menú" onclick="abrirPopUpModifMenu()" /> 
+	</p>
+	</form>
+</body>
+</html>
+
+<?php
+mysql_query("UPDATE comidas set PLATO='$_POST[nuevo]'
+WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
+?>
+
+<script>
+function abrirPopUpModifMenu()
+{
+alert("Usted ha modificado el menú con éxito");
+}
+
+</script>
