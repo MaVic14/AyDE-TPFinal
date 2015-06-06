@@ -1,25 +1,3 @@
-<?php
-$today = getdate();
- print "la hora del server es: "  . $today['hours'] ;
-?>
-
-<?PHP
-
-$post_hour = 20;
-$today = getdate();
-
-$hour_difference = $today['hours'] - $post_hour;
-
-Print ".           Hasta las 20hs -ver zonahoraria- se puede dar de Baja, ahora hay de diferencia = " . $hour_difference;
-if ($hour_difference < 0){
-  Print ".         En horario ok " ;
-}
-else { 
-  Print ".         En horario MAL! ";
-}
-
-
-?>
 
 <?php include("includes/top_page.php"); ?>
 <?php include("includes/header.php"); ?>
@@ -81,11 +59,19 @@ $nroLegajo = null;
 //Datos del insert
 $queryAsistencia = null;
 
+$hs = null;
+$result = mysql_query("SELECT CURTIME()");
+ 
+while($row=mysql_fetch_array($result))  
+{
+	$hs = ($row["CURTIME()"]);
+}
+
+
 $usuarioCorto = explode('@', $user);
 $usuarioCorto_ = ltrim($usuarioCorto[0]) + '';//Agregue estas comillas porque no me tomaba el String
 
-$resultEmpleados = mysql_query("SELECT * FROM empleados where UsuarioCorto = $usuarioCorto_", $link);
-echo "<em><u>usuarioCorto</em></u>:  $usuarioCorto_ <br> ";
+$resultEmpleados = mysql_query("SELECT * FROM EMPLEADOS where USUARIOCORTO = $usuarioCorto_", $link);
 $row = mysql_fetch_row($resultEmpleados);
 
 if($resultEmpleados == null){
@@ -95,19 +81,33 @@ if($resultEmpleados == null){
 	
 } else {
 
-	echo "<div align=\"center\"> Bienvenido ".ucfirst($row[1]).". Tu PC esta alojada como $domain/$workstation"."</div><br>";
+	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1]).". Tu PC esta alojada como $domain/$workstation"."</h3><br>";
 	$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
-	echo "<em><u>Dia</em></u>: ".mysql_result($result, 0, "letraDia")."<br>";
-	echo "<em><u>Plato</em></u>: ".mysql_result($result, 0, "plato")."<br>";
-	echo "<em><u>Guarnicion</em></u>: ".mysql_result($result, 0, "guarnicion")."<br>";
 	
-	$nroLegajo = $row[0];
+	$hs = $hs + '';
+
+	if($hs > 11){
+		echo "<h4 style=\"color:white;background-color:rgb(128,128,128)\">El horario para darse de ALTA/BAJA ha pasado. Cualquier duda contactese con Sergio.</h4>";
+		
+	} else {
+		echo "<h4 style=\"color:white;background-color:rgb(128,128,128)\">Tiene tiempo hasta las 11am. para darse de ALTA/BAJA.</h4>";
+	}
+	
+	echo "<h4 style=\"color:gray\">Día: ".mysql_result($result, 0, "letraDia")."</h4>";
+	echo "<h4 style=\"color:gray\">Plato: ".mysql_result($result, 0, "plato")."</h4>";
+	echo "<h4 style=\"color:gray\">Guarnición: ".mysql_result($result, 0, "guarnicion")."</h4>";
+	
+	$nroLegajo = $row[2];
 	
 	if($nroLegajo == NROLEGAJO_ADMIN){
 		$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia", $link);
-		echo "<em><u>Cantidad de comensales</em></u>: ".mysql_result($result, 0)."<br>";
+		echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
 	}
-	$queryAsistencia = mysql_query("SELECT * FROM asistencia where legajo = $nroLegajo");
+	if($hs > 11){
+		return;
+	}	
+	//EMI, aca esta lo de no permitir votar 2 veces. Hace la consulta preguntando si el legajo existe
+	$queryAsistencia = mysql_query("SELECT * FROM asistencia where LEGAJO = $nroLegajo and NUMERODIA = $numeroDia");
 }
 ?>
 
@@ -140,16 +140,7 @@ background:#aaa;
 </style> 
 
 <?php
-
-$post_hour = 20;
-$today = getdate();
-
-$hour_difference = $today['hours'] - $post_hour;
-
-//Print "Hasta las 20hs se puede dar de Baja, ahora hay de diferencia = " . $hour_difference;
-if ($hour_difference < 0){
-  //Print " En horario ok " ;
-  if (isset($_POST["alta"])) {
+if (isset($_POST["alta"])) {
 	 
 		$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
 		$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
@@ -163,28 +154,6 @@ if (isset($_POST["baja"])) {
         mysql_query($sql);
         $status = "ok";
 		}
-
-else { 
-  Print " AVISO DEL IF, PARTE ELSE: En horario MAL! ";
- //avisoFueraDeHorario();
-//<html lang="en">
-//<head>
-// <title>Curso de JavaScript</title> </head>     
-//  <body onload="alert('Hola');">
-//   <p>Tutorial de JavaScript</p>   
-//    </body></html>
-//echo "<script type='text/javascript'>alert('Usted')</script>";
-//<script type="text/javascript">
-//alert('Mensaje manejado con JavaScript');
-//alert("Ya no puede inscribirse en el sistema, se ha cerrado porque son más de las 20hs (u 11hs) -ver zonahoraria-");
-
-//<script language="javascript">
-//alert("Error al insertar valores <?php echo $hour_difference;
-
-}
-}
-
-
 ?> 
 <?php include("includes/footer.php"); ?>
 <script>

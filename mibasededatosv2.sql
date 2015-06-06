@@ -65,7 +65,8 @@ INSERT INTO `comidas` (`numeroDia`, `letraDia`, `plato`, `guarnicion`) VALUES
 (2, 'Martes', 'Pollo', 'Ensaladas o Arroz'),
 (3, 'Miercoles', 'Carne c/papas', 'Ensaladas o Arroz'),
 (4, 'Jueves', 'Tartas y Pascualinas', 'Ensaladas o Arroz'),
-(5, 'Viernes', 'Pizzas', 'Ensaladas o Arroz');
+(5, 'Viernes', 'Pizzas', 'Ensaladas o Arroz'),
+(6, 'Sabado', 'Pizzas', 'Ensaladas o Arroz');
 
 /*!40101 SET CHARACTER_SET_CLIEasistenciaasistenciaNT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -81,6 +82,5 @@ CREATE TABLE IF NOT EXISTS `empleados` (
 -- Volcado de datos para la tabla `asistencia`
 --
 
-INSERT INTO `empleados` (`UsuarioCorto`) VALUES ('7');
-
-
+INSERT INTO `empleados`(`NOMBRE`, `USUARIOCORTO`, `LEGAJO`) VALUES ('SERGIO','SERGIO',1000);
+INSERT INTO `empleados`(`NOMBRE`, `USUARIOCORTO`, `LEGAJO`) VALUES ('CLAUDIO','CLAUDIO',1001);
