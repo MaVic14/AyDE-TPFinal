@@ -19,8 +19,9 @@
 	<!-- Cualquier usuario mostrara las 3 opciones: Agregar Comensal, Asistir, No Asistir -->
     <input type="button" name="agregaComensales" class="btn btn-primary" data-toggle="modal" data-target="#comensal" value="Agregar Comensales">
     <input class="btn btn-success" id= "1" name="altaValor" type="submit" onclick="darDeAlta()" value="Asistire">
+<?php if($hs < 11){ ?>
     <input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
-    
+<?php } ?>
 	<!-- Abre el pop Up al Modificar el menu -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">

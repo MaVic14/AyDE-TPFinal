@@ -86,7 +86,7 @@ return;
 	
 	<div class="alert alert-danger">  
 	<a class="close" data-dismiss="alert">×</a>  
-	<strong>¡Atencion!</strong> El horario para darse de ALTA/BAJA ha pasado. Por cualquier duda contactese con <a href="mailto:untref_tp_ayde@gmail.com">Sergio</a>
+	<strong>¡Atencion!</strong> El horario para darse de Alta/Baja permitido ha pasado. Para evitar inconvenites, la proxima vez ingrese más temprano. Por favor, si usted no ha sido dado de alta, hagalo ahora.
 	</div>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/jquery.js"></script>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>  
@@ -127,19 +127,21 @@ return;
 	$nroLegajo = $row[2];
 
 	if($nroLegajo == NROLEGAJO_ADMIN){
-		$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia", $link);
+	
+		$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<11", $link);
 		echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
+		$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>11", $link);
+		echo "<h4 style=\"color:gray\">Cantidad de comensales votaron fuera de horario</em></u>: ".mysql_result($resultEmpleados, 0)."</h4>";
 		echo "<br>";
 		echo "<br>";
 	}
-	if($hs < 11){
-	 return;
-	}
+	// if($hs < 11){
+	 // return;
+	// }
 
 	
 }
-if($booleanhorario==false){
 include("BotonesYRespuestas.php");
-}//Se incluye el footer para la parte debajo de la pantalla
+//Se incluye el footer para la parte debajo de la pantalla
 include("includes/footer.php");
 ?>
