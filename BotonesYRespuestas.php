@@ -13,7 +13,7 @@
    <!-- Si el usuario es Sergio, mostrara modificar menu -->
     <p align="center">
     <?php if($nroLegajo == NROLEGAJO_ADMIN){ ?>
-    <input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modifcar Menu">
+    <input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modificar Menu">
     <?php } ?>
 	
 	<!-- Cualquier usuario mostrara las 3 opciones: Agregar Comensal, Asistir, No Asistir -->
@@ -33,8 +33,10 @@
 			<div class="modal-body">
 				<p> Ingresar el d&iacutea que desea modificar</p>
 				<input id="dia" name="dia" type="text" class="form-control input-md" >
-				<p>Ingrese el nuevo men&uacute</p>
-			<input id="menu" name="menu" type="text" class="form-control input-md" >
+				<p>Ingrese el nuevo plato</p>
+				<input id="plato" name="plato" type="text" class="form-control input-md" >
+				<p>Ingrese la nueva guarnici&oacuten</p>
+				<input id="guarnicion" name="guarnicion" type="text" class="form-control input-md" >
 			</div>
 			<div class="modal-footer">
 				<input class="btn btn-info" name="modificarMenu" type="submit" value="Modificar" onclick="modificarMenu()">
@@ -161,7 +163,8 @@ if (isset($_POST["altaValor"])) {
 	function modificarMenu(){
 	</script><?php
 	if(isset($_POST["modificarMenu"])){
-	mysql_query("UPDATE comidas set PLATO='$_POST[menu]' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
+	mysql_query("UPDATE comidas set PLATO='$_POST[plato]' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
+	mysql_query("UPDATE comidas set GUARNICION='$_POST[guarnicion]' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
 	?><script> alert ("Cambio de menu realizado con exito") </script><?php
 	}
 	?> <script>}</script>
