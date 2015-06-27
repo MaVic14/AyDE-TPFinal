@@ -141,6 +141,38 @@ return;
 
 	
 }
+$total = mysql_num_rows(mysql_query("SELECT * FROM estados WHERE estado='0'"));
+if($total==0){ 
+	PRINT <<<HERE
+	<html lang="en">
+
+<head>
+
+	<p align="center">
+	<FONT COLOR=#008000><span style="font-size: 30px;"> <b> USTED HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
+
+	</p>
+	</form>
+</head>
+</html>
+HERE;
+} else{
+PRINT <<<HERE
+	<html lang="en">
+
+<head>
+
+	<p align="center">
+	<FONT COLOR=F41010><span style="font-size: 30px;"> <b> USTED NO HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
+
+	</p>
+	</form>
+</head>
+</html>
+HERE;
+}
+
+
 include("BotonesYRespuestas.php");
 //Se incluye el footer para la parte debajo de la pantalla
 include("includes/footer.php");
