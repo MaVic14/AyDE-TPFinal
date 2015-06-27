@@ -18,9 +18,18 @@
 	
 	<!-- Cualquier usuario mostrara las 3 opciones: Agregar Comensal, Asistir, No Asistir -->
     <input type="button" name="agregaComensales" class="btn btn-primary" data-toggle="modal" data-target="#comensal" value="Agregar Comensales">
-    <input class="btn btn-success" id= "1" name="altaValor" type="submit" onclick="darDeAlta()" value="Asistire">
+
+<!-- IMPORTANTE: lo ultimo modificado (las condiciones que se agregan a los botones), revisar linea 135 y 104 . Ahí se metieo codigo. Tienen que agregar la tabla para que funcione-->	
+	
+<?php $total = mysql_num_rows(mysql_query("SELECT * FROM estados WHERE estado='0'"));
+if($total!=0){ ?>
+	<input class="btn btn-success" id= "1" name="altaValor" type="submit" onclick="darDeAlta()" value="Asistire">
+<?php } ?>	
 <?php if($hs < 11){ ?>
-    <input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
+    <?php $total = mysql_num_rows(mysql_query("SELECT * FROM estados WHERE estado='1'"));
+	if($total!=0){ ?>
+	<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
+	<?php } ?>
 <?php } ?>
 	<!-- Abre el pop Up al Modificar el menu -->
 	<div class="modal fade" id="myModal" role="dialog">
@@ -75,6 +84,7 @@ background:#aaa;
 // Verifica si el usuario ya esta dado de alta
 $result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."' and legajo = '".$nroLegajo."')");
 $row = mysql_fetch_row($result);
+
 if (isset($_POST["altaValor"])) {
 	//Ingresa si el usuario no esta dado de alta
     if($row[0] == 0){
@@ -82,6 +92,7 @@ if (isset($_POST["altaValor"])) {
     $sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
     mysql_query($sql);
     $status = "ok";
+	
     // Luego de dar de alta. Se deshabilita el boton.
 	?>
     <script>
@@ -90,6 +101,7 @@ if (isset($_POST["altaValor"])) {
       $('input[name="baja"]').attr('enable','enable')
 
     </script><?php
+	mysql_query("UPDATE estados set ESTADO='1' WHERE ESTADO='0'", $link) or die(misql_error());
     }
 	//Si el $row[0] es igual a 1, deshabilita el boton ya que existe un registro
     else{?>
@@ -105,6 +117,7 @@ if (isset($_POST["altaValor"])) {
 	</script><?php
 	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
 	$row = mysql_fetch_row($result);
+	
 	if (isset($_POST["baja"])) {
 	//Ingresa si el usuario no esta dado de alta
     if($row[0] == 1){
@@ -119,7 +132,8 @@ if (isset($_POST["altaValor"])) {
     $('input[name="baja"]').attr('disabled','disabled')
 	$('input[name="altaValor"]').attr('enable','enable')
     </script><?php
-    }
+	mysql_query("UPDATE estados set ESTADO='0' WHERE ESTADO='1'", $link) or die(misql_error());
+	}
 	//Si el $row[0] es igual a 0, deshabilita el boton ya que no existe un registro para eliminar
     else {?>
     <script>
