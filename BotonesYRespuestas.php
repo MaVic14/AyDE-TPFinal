@@ -16,18 +16,31 @@
 <script>}
 	function agregarComensal(){
 	</script><?php
+<<<<<<< HEAD
 	// Realiza la consulta si el usuario dado de alta ya existe en la base, GAB removi aca el filtrar x nro legajo, al pepe
 	$consultaInterno = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
 	$valorConsulta = mysql_fetch_row($result);
 	// Realiza la consulta si ya existen usuarios externos dados de alta por este usuario
 	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
+=======
+	// Realiza la consulta si el usuario dado de alta ya existe en la base
+	$consultaInterno = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."' and legajo = '".$nroLegajo."')");
+	$valorConsulta = mysql_fetch_row($result);
+	// Realiza la consulta si ya existen usuarios externos dados de alta por este usuario
+	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."' and legajo = '1001')");
+>>>>>>> 697a340a73684d81705b52666e25917437cf205b
 	$row = mysql_fetch_row($result);
 	// Se verifican los datos ingresados
 	if (isset($_POST ["externos"])) {
 		if (isset($_REQUEST ["altaPropia"])) {
 				if($valorConsulta[0] == 0){
+<<<<<<< HEAD
 					$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 					$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',0)";
+=======
+					$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
+					$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
+>>>>>>> 697a340a73684d81705b52666e25917437cf205b
 					mysql_query($sql);
 					$status = "ok";
 					if(isset($_POST ["agregaComensal"])){
@@ -35,8 +48,13 @@
 						$var =0;
 						if($row[0] == 0){
 						while ($var < $externos){
+<<<<<<< HEAD
 							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',1)";
+=======
+							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
+							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '1001')";
+>>>>>>> 697a340a73684d81705b52666e25917437cf205b
 							mysql_query($sql);
 							$status = "ok";
 							$var++;
@@ -50,8 +68,13 @@
 						$var =0;
 						if($row[0] == 0){
 						while ($var < $externos){
+<<<<<<< HEAD
 							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',1)";
+=======
+							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
+							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '1001')";
+>>>>>>> 697a340a73684d81705b52666e25917437cf205b
 							mysql_query($sql);
 							$status = "ok";
 							$var++;

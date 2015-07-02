@@ -6,4 +6,8 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<<<<<<< HEAD
 <div id="wrapper">
+=======
+<div id="wrapper">
+>>>>>>> 697a340a73684d81705b52666e25917437cf205b
