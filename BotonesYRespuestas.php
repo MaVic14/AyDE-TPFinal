@@ -5,13 +5,22 @@
 	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
 	$row = mysql_fetch_row($result);
 	if (isset($_POST["baja"])) {
-	//Ingresa si el usuario no esta dado de alta
+	//Ingresa si el usuario no esta dado de alta GAB_: esto baja ambos!!!
 		if($row[0] == 1){
 			$sql = "DELETE FROM asistencia ";
-			$sql.= "WHERE usuarioNombre = '".$user."'";
+			$sql.= "WHERE InvitaExternos = 0 and usuarioNombre = '".$user."'";
 			mysql_query($sql);
 			$status = "ok";
     	}
+	}
+    	if (isset($_POST["bajaSoloExternos"])) {
+    		//Ingresa si el usuario no esta dado de alta // GAB baja solo los externos
+    		if($row[0] == 1){
+    			$sql = "DELETE FROM asistencia ";
+    			$sql.= "WHERE InvitaExternos = 1 and usuarioNombre = '".$user."'";
+    			mysql_query($sql);
+    			$status = "ok";
+    		}
 	}?>
 <script>}
 	function agregarComensal(){
@@ -155,7 +164,8 @@ HERE;
 		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
 			if($hs < 11){ 
 			?>
-			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
+			<input class="btn btn-danger" name="bajaSoloExternos" type="submit" value="No Asistiran Externos" onclick="darDeBaja()"></p>
+			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire Yo solo" onclick="darDeBaja()"></p>
 	<?php 	}
 		} ?>
 	<!-- Abre el pop Up al Modificar el menu -->
@@ -205,3 +215,4 @@ body{
 background:#aaa;
 }
 </style>
+
