@@ -1,4 +1,4 @@
-<!-- Llama a la función luego de clickear el botón -->
+<!-- Llama a la funciÃ³n luego de clickear el botÃ³n -->
 <script>
 	function darDeBaja(){
 	</script><?php
@@ -16,31 +16,18 @@
 <script>}
 	function agregarComensal(){
 	</script><?php
-<<<<<<< HEAD
 	// Realiza la consulta si el usuario dado de alta ya existe en la base, GAB removi aca el filtrar x nro legajo, al pepe
 	$consultaInterno = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
 	$valorConsulta = mysql_fetch_row($result);
 	// Realiza la consulta si ya existen usuarios externos dados de alta por este usuario
 	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
-=======
-	// Realiza la consulta si el usuario dado de alta ya existe en la base
-	$consultaInterno = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."' and legajo = '".$nroLegajo."')");
-	$valorConsulta = mysql_fetch_row($result);
-	// Realiza la consulta si ya existen usuarios externos dados de alta por este usuario
-	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."' and legajo = '1001')");
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 	$row = mysql_fetch_row($result);
 	// Se verifican los datos ingresados
 	if (isset($_POST ["externos"])) {
 		if (isset($_REQUEST ["altaPropia"])) {
 				if($valorConsulta[0] == 0){
-<<<<<<< HEAD
 					$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 					$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',0)";
-=======
-					$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
-					$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '".$nroLegajo."')";
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 					mysql_query($sql);
 					$status = "ok";
 					if(isset($_POST ["agregaComensal"])){
@@ -48,13 +35,8 @@
 						$var =0;
 						if($row[0] == 0){
 						while ($var < $externos){
-<<<<<<< HEAD
 							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',1)";
-=======
-							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
-							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '1001')";
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 							mysql_query($sql);
 							$status = "ok";
 							$var++;
@@ -68,13 +50,8 @@
 						$var =0;
 						if($row[0] == 0){
 						while ($var < $externos){
-<<<<<<< HEAD
 							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre,InvitaExternos)";
 							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."',1)";
-=======
-							$sql = "INSERT INTO asistencia (numeroDia, letraDia,usuarioNombre, legajo)";
-							$sql.= "VALUES ('".$numeroDia."', '".$letraDia."', '".$user."', '1001')";
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 							mysql_query($sql);
 							$status = "ok";
 							$var++;
@@ -114,7 +91,7 @@
 	// Cuenta la cantidad de comensales inscriptos antes de las 11hs.
 	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<11", $link);
 	echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
-	// Cuenta la cantidad de comensales inscriptos después de las 11hs.
+	// Cuenta la cantidad de comensales inscriptos despuÃ©s de las 11hs.
 	$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>11", $link);
 	echo "<h4 style=\"color:gray\">Cantidad de comensales votaron fuera de horario</em></u>: ".mysql_result($resultEmpleados, 0)."</h4>";
 	}
@@ -161,7 +138,7 @@ HERE;
 		if($user == 'Sergio'){ ?>
 	<input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modificar Menu">
     <?php } ?>
-	<!-- La opcion de Asistire y con comensales pertenece a todos los registrados, como también darse de baja -->
+	<!-- La opcion de Asistire y con comensales pertenece a todos los registrados, como tambiÃ©n darse de baja -->
 	<?php 
 		// Si la consulta
 		$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where USUARIONOMBRE = '".$user."')");
@@ -175,7 +152,7 @@ HERE;
 		
 		//Si el $total es 1
 		if($row[0]==1){ 
-		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
+		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrÃ¡
 			if($hs < 11){ 
 			?>
 			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
