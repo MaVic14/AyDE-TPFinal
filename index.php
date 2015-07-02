@@ -1,4 +1,4 @@
-﻿<!-- Se llaman a los include que daran imagen y forma a la pagina -->
+<!-- Se llaman a los include que daran imagen y forma a la pagina -->
 <?php include("includes/top_page.php"); ?>
 <?php include("includes/header.php"); ?>
 
@@ -45,14 +45,9 @@ while($row=mysql_fetch_array($result)){
 	$hs = ($row["CURTIME()"]);
 }
 
-<<<<<<< HEAD
 $hs = "10:00:00"; //agrede
 //Se obtiene los datos de la query en la variable $resultEmpleados
 $resultEmpleados = mysql_query("SELECT * FROM EMPLEADOS where NOMBRE = '".$result."'", $link);
-=======
-//Se obtiene los datos de la query en la variable $resultEmpleados
-$resultEmpleados = mysql_query("SELECT * FROM EMPLEADOS where USUARIOCORTO = '".$result."'", $link);
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 //Lee el primer registro del $resultEmpleados y lo almacena en la variable 
 $row = mysql_fetch_row($resultEmpleados);
 
@@ -89,11 +84,8 @@ if($row[1] != null){
 	</body>  
 	</html>
 	<?php
-<<<<<<< HEAD
 	
 	// phpinfo();
-=======
->>>>>>> 697a340a73684d81705b52666e25917437cf205b
 	// Se verifica el horario para aquellos comensales que se inscriban 
 	$hs = $hs + '';
 	// Si el horario es mayor a 11.
