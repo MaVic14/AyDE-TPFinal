@@ -1,87 +1,5 @@
 <!-- Declaramos el estilo del HTML -->
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-</head>
-</html>
-<form action="" method="post" class="asistencia">
-	<p align="center">
-	<!-- Si el usuario es Sergio, mostrara modificar menu -->
-	<?php 
-		if($user == 'Sergio'){ ?>
-	<input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modificar Menu">
-    <?php } ?>
-	<!-- La opcion de Asistire y con comensales pertenece a todos los registrados, como también darse de baja -->
-	<?php 
-		// Si la consulta
-		$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where USUARIONOMBRE = '".$user."')");
-		$row = mysql_fetch_row($total);
-		if($row[0]==0){ ?>
-		<input type="button" id="agregar" name="agregaComensales" class="btn btn-success" data-toggle="modal" data-target="#comensal" value="Agregar Comensales">
-	
-	<?php } ?>	
-	<?php
-	//Si el horario es menor a 11 hs.
-		
-		//Si el $total es 1
-		if($row[0]==1){ 
-		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
-			if($hs > 11){ 
-			?>
-			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
-	<?php 	}
-		} ?>
-	<!-- Abre el pop Up al Modificar el menu -->
-	<div class="modal fade" id="myModal" role="dialog">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal">&times;</button>
-			  <h4 class="modal-title">Modificar Men&uacute</h4>
-			</div>
-			<div class="modal-body">
-				<p> Ingresar el d&iacutea que desea modificar</p>
-				<input id="dia" name="dia" type="text" class="form-control input-md" >
-				<p>Ingrese el nuevo plato</p>
-				<input id="plato" name="plato" type="text" class="form-control input-md" >
-				<p> </p>
-				<input type="checkbox" name="guarnicion"> Permite guarnici&oacuten </br>
-			</div>
-			<div class="modal-footer">
-				<input class="btn btn-info" name="modificarMenu" type="submit" value="Modificar" onclick="modificarMenu()">
-			</div>
-		  </div>
-		</div>
-	</div>
-		<div class="modal fade" id="comensal" role="dialog">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal">&times;</button>
-			  <h4 class="modal-title">Agregar asistencia</h4>
-			</div>
-			<div class="modal-body">
-			<input type="checkbox" name="altaPropia"> Confirma su asistencia </br>
-			<p> </p>
-			<p> Ingresar el numero de comensales externos que desea agregar</p>
-				<input id="ext" name="externos" type="number" min="0" max="10" class="form-control input-md" >
-			</div>
-			<div class="modal-footer">
-				<input class="btn btn-success" name="agregaComensal" type="submit" value="Agregar" onclick="agregarComensal();location.href='index.php'">
-			</div>
-		  </div>
-		</div>
-	</div>
-</form>
-<style type="text/css"> 
-body{
-background:#aaa;
-}
-</style>
+
 <!-- Llama a la función luego de clickear el botón -->
 <script>
 	function darDeBaja(){
@@ -168,3 +86,86 @@ background:#aaa;
 	?><script> alert ("Cambio de menu realizado con exito");
 	}
 	</script>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+</html>
+<form action="" method="post" class="asistencia">
+	<p align="center">
+	<!-- Si el usuario es Sergio, mostrara modificar menu -->
+	<?php 
+		if($user == 'Sergio'){ ?>
+	<input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modificar Menu">
+    <?php } ?>
+	<!-- La opcion de Asistire y con comensales pertenece a todos los registrados, como también darse de baja -->
+	<?php 
+		// Si la consulta
+		$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where USUARIONOMBRE = '".$user."')");
+		$row = mysql_fetch_row($total);
+		if($row[0]==0){ ?>
+		<input type="button" id="agregar" name="agregaComensales" class="btn btn-success" data-toggle="modal" data-target="#comensal" value="Agregar Comensales">
+	
+	<?php } ?>	
+	<?php
+	//Si el horario es menor a 11 hs.
+		
+		//Si el $total es 1
+		if($row[0]==1){ 
+		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
+			if($hs > 11){ 
+			?>
+			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
+	<?php 	}
+		} ?>
+	<!-- Abre el pop Up al Modificar el menu -->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Modificar Men&uacute</h4>
+			</div>
+			<div class="modal-body">
+				<p> Ingresar el d&iacutea que desea modificar</p>
+				<input id="dia" name="dia" type="text" class="form-control input-md" >
+				<p>Ingrese el nuevo plato</p>
+				<input id="plato" name="plato" type="text" class="form-control input-md" >
+				<p> </p>
+				<input type="checkbox" name="guarnicion"> Permite guarnici&oacuten </br>
+			</div>
+			<div class="modal-footer">
+				<input class="btn btn-info" name="modificarMenu" type="submit" value="Modificar" onclick="modificarMenu()">
+			</div>
+		  </div>
+		</div>
+	</div>
+		<div class="modal fade" id="comensal" role="dialog">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Agregar asistencia</h4>
+			</div>
+			<div class="modal-body">
+			<input type="checkbox" name="altaPropia"> Confirma su asistencia </br>
+			<p> </p>
+			<p> Ingresar el numero de comensales externos que desea agregar</p>
+				<input id="ext" name="externos" type="number" min="0" max="10" class="form-control input-md" >
+			</div>
+			<div class="modal-footer">
+				<input class="btn btn-success" name="agregaComensal" type="submit" value="Agregar" onclick="agregarComensal();location.href='index.php'">
+			</div>
+		  </div>
+		</div>
+	</div>
+</form>
+<style type="text/css"> 
+body{
+background:#aaa;
+}
+</style>
