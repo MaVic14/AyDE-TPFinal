@@ -52,7 +52,7 @@ if(!isset($_SESSION['userid']))
     }
 ?>
 
-<!-- Se setean los valores que daran forma a la pantalla con el código CSS -->
+<!-- Se setean los valores que daran forma a la pantalla con el cÃ³digo CSS -->
 <style type="text/css">
 
 *{
@@ -157,3 +157,4 @@ form.login div input[type="submit"] {
     echo '<a href="logout.php">Logout</a>';
 }
 ?>
+
