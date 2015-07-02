@@ -55,9 +55,6 @@ if($row[1] != null){
 	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1])."</h3><br>";	
 }else{
 	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".$user."</h3><br>";	
-
-// Se obtienen los datos de las comidas, dependiendo el dia	
-$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
 ?>
 	<!-- Muestra dos alert para el ingreso de comensales externos y el siguiente para el hroario -->
 	<html lang="en">
@@ -89,7 +86,7 @@ $result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $lin
 	// Se verifica el horario para aquellos comensales que se inscriban 
 	$hs = $hs + '';
 	// Si el horario es mayor a 11.
-	if($hs < 11){
+	if($hs > 11){
 	$booleanhorario=true;
 	?>
 	<html lang="en">  
@@ -136,46 +133,7 @@ $result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $lin
 	
 	<?php echo "<br>";
 	}
-	// Setea los platos dependiendo el dia
-	echo "<h4 style=\"color:gray\">Día: ".mysql_result($result, 0, "letraDia")."</h4>";
-	echo "<h4 style=\"color:gray\">Plato: ".mysql_result($result, 0, "plato")."</h4>";
-	echo "<h4 style=\"color:gray\">Guarnición: ".mysql_result($result, 0, "guarnicion")."</h4>";
-	echo "<br>";
-	
-	// Cuenta la cantidad de comensales inscriptos antes de las 11hs.
-	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<11", $link);
-	echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
-	// Cuenta la cantidad de comensales inscriptos después de las 11hs.
-	$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>11", $link);
-	echo "<h4 style=\"color:gray\">Cantidad de comensales votaron fuera de horario</em></u>: ".mysql_result($resultEmpleados, 0)."</h4>";
-	echo "<br>";
-	}
 
-// Si el usuario
-$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where USUARIONOMBRE = '".$user."')");
-$row = mysql_fetch_row($total);
-if($row[0]==1){ 
-	PRINT <<<HERE
-	<html lang="en">
-	<head>
-		<p align="center">
-		<FONT COLOR=#008000><span style="font-size: 30px;"> <b> USTED HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
-		</p>
-		</form>
-	</head>
-	</html>
-HERE;
-} else {
-	PRINT <<<HERE
-	<html lang="en">
-	<head>
-		<p align="center">
-		<FONT COLOR=F41010><span style="font-size: 30px;"> <b> USTED NO HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
-		</p>
-	</form>
-	</head>
-	</html>
-HERE;
 }
 // en BotonesYRespuestas.php se incluyen los botones de Alta/Baja
 include("BotonesYRespuestas.php");

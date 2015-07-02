@@ -1,12 +1,9 @@
-<!-- Declaramos el estilo del HTML -->
-
 <!-- Llama a la función luego de clickear el botón -->
 <script>
 	function darDeBaja(){
 	</script><?php
 	$result = mysql_query("SELECT exists ( SELECT * FROM asistencia WHERE usuarioNombre = '".$user."')");
 	$row = mysql_fetch_row($result);
-	
 	if (isset($_POST["baja"])) {
 	//Ingresa si el usuario no esta dado de alta
 		if($row[0] == 1){
@@ -14,12 +11,7 @@
 			$sql.= "WHERE usuarioNombre = '".$user."'";
 			mysql_query($sql);
 			$status = "ok";
-    ?>
-    <script>
-    alert("Atencion: Usted ha sido dado de baja en el sistema. Si agrego comensales recuerde ingresarlos nuevamente");
-    $('input[name="altaValor"]').attr('enable','enable');
-    </script><?php
-	}
+    	}
 	}?>
 <script>}
 	function agregarComensal(){
@@ -68,7 +60,6 @@
 					
 				}
 			}
-			?><script>$("#asistencia").load("index.php #asistencia"); </script> <?php
 			}
 	?>
     <script>
@@ -86,6 +77,51 @@
 	?><script> alert ("Cambio de menu realizado con exito");
 	}
 	</script>
+<?php
+	// Se obtienen los datos de las comidas, dependiendo el dia	
+	$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
+	// Setea los platos dependiendo el dia
+	echo "<h4 style=\"color:gray\">Dia: ".mysql_result($result, 0, "letraDia")."</h4>";
+	echo "<h4 style=\"color:gray\">Plato: ".mysql_result($result, 0, "plato")."</h4>";
+	if (mysql_result($result, 0, "guarnicion") != ''){
+	echo "<h4 style=\"color:gray\">Guarnicion: ".mysql_result($result, 0, "guarnicion")."</h4>";
+	}
+	echo "<br>";
+	if($user == 'Sergio'){
+	// Cuenta la cantidad de comensales inscriptos antes de las 11hs.
+	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<11", $link);
+	echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
+	// Cuenta la cantidad de comensales inscriptos después de las 11hs.
+	$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>11", $link);
+	echo "<h4 style=\"color:gray\">Cantidad de comensales votaron fuera de horario</em></u>: ".mysql_result($resultEmpleados, 0)."</h4>";
+	}
+	$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where USUARIONOMBRE = '".$user."')");
+	$asistencias = mysql_fetch_row($total);
+	if($asistencias[0]==1){ 
+		PRINT <<<HERE
+		<html lang="en">
+		<head>
+			<p align="center">
+			<FONT COLOR=#008000><span style="font-size: 30px;"> <b> USTED HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
+			</p>	
+			</form>
+		</head>
+		</html>
+HERE;
+} else {
+		PRINT <<<HERE
+		<html lang="en">
+		<head>
+			<p align="center">
+			<FONT COLOR=F41010><span style="font-size: 30px;"> <b> USTED NO HA CONFIRMADO ASISTENCIA </b> <br/></span></FONT>
+			</p>
+		</form>
+	</head>
+	</html>
+HERE;
+	}
+	
+	?>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -117,7 +153,7 @@
 		//Si el $total es 1
 		if($row[0]==1){ 
 		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
-			if($hs > 11){ 
+			if($hs < 11){ 
 			?>
 			<input class="btn btn-danger" name="baja" type="submit" value="No Asistire" onclick="darDeBaja()"></p>
 	<?php 	}
