@@ -13,7 +13,7 @@
 			$status = "ok";
     	}
 	}
-    	if (isset($_POST["bajaSoloExternos"])) {
+    	if (isset($_POST["bajaExternos"])) {
     		//Ingresa si el usuario no esta dado de alta // GAB baja solo los externos
     		if($row[0] == 1){
     			$sql = "DELETE FROM asistencia ";
