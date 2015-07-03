@@ -72,6 +72,7 @@ INSERT INTO `empleados` (`NOMBRE`, `LEGAJO`) VALUES
 # Dumping structure for table baseayde.parametros
 CREATE TABLE IF NOT EXISTS `parametros` (
   `horarioalmuerzo` varchar(50) DEFAULT NULL
+  `horaLimite` TIME NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Dumping data for table baseayde.parametros: ~0 rows (approximately)

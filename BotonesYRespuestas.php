@@ -1,4 +1,5 @@
 <!-- Llama a la función luego de clickear el botón -->
+
 <script>
 	function darDeBaja(){
 	</script><?php
@@ -77,7 +78,7 @@
 	</script><?php
 	if(isset($_POST["modificarMenu"])){
 	mysql_query("UPDATE comidas set PLATO='$_POST[plato]' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
-	?><script> alert ("Cambio de menu realizado con exito");
+	?><script> alert ("Cambio de menu realizado con exito") </script>;
 	<?php
 		if (isset($_REQUEST['guarnicion'])){
 				mysql_query("UPDATE comidas set GUARNICION='Ensaladas o Arroz' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
@@ -87,19 +88,22 @@
 		
 		}
 		?>
-
-		
- 
+	
+		<script>
+		function modificarHorarioAlmuerzo(){
 				</script><?php
 				if(isset($_POST["modificarHorarioAlmuerzo"])){
-				mysql_query("UPDATE parametros set horarioalmuerzo='$_POST[horarioalmuerzo]' ",$link) or die(misql_error());
-				echo '<script type="text/javascript">alert("Cambio de Horario realizado con exito"); </script>';
-					}
-			?>
-
+				mysql_query("UPDATE parametros set horarioalmuerzo='$_POST[horarioalmuerzo]'",$link) or die(misql_error());
+				mysql_query("UPDATE parametros set horaLimite='$_POST[horarioMaximo]' ",$link) or die(misql_error());
+				 ?> <script> alert("Cambio de Horario realizado con exito")</script>;
+				<?php } ?>
+			
+		
 
 <?php
 
+	$result = mysql_query("SELECT horarioalmuerzo FROM parametros", $link);
+	echo "<h4 style=\"color:blue\">El horario de almuerzo será a las </em></u> ".mysql_result($result, 0)."</h4>";
 
 	// Se obtienen los datos de las comidas, dependiendo el dia	
 	$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
@@ -111,11 +115,15 @@
 	}
 	echo "<br>";
 	if($user == 'Sergio'){
-	// Cuenta la cantidad de comensales inscriptos antes de las 11hs.
-	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<11", $link);
+	// Cuenta la cantidad de comensales inscriptos antes de la hora limite.
+	//Trae la hora límite--------------------
+	$result = mysql_query("SELECT horaLimite from parametros", $link);
+	$horaMax = mysql_result($result, 0);
+	//----------------------------------------
+	$result = mysql_query("SELECT COUNT(*) FROM asistencia where numeroDia = $numeroDia and HOUR(horarioAsistencia)<'$horaMax'", $link);
 	echo "<h4 style=\"color:gray\">Cantidad de comensales</em></u>: ".mysql_result($result, 0)."</h4>";
-	// Cuenta la cantidad de comensales inscriptos después de las 11hs.
-	$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>11 and numeroDia = $numeroDia", $link);
+	// Cuenta la cantidad de comensales inscriptos después de la hora limite.
+	$resultEmpleados = mysql_query("SELECT COUNT(*) FROM asistencia WHERE HOUR(horarioAsistencia)>'$horaMax' and numeroDia = $numeroDia", $link);
 	echo "<h4 style=\"color:gray\">Cantidad de comensales votaron fuera de horario</em></u>: ".mysql_result($resultEmpleados, 0)."</h4>";
 	}
 	$total = mysql_query("SELECT exists ( SELECT * FROM ASISTENCIA where numeroDia = $numeroDia and invitaExternos = 0 and USUARIONOMBRE = '".$user."')");
@@ -188,12 +196,15 @@ HERE;
 	
 	<?php } ?>	
 	<?php
-	//Si el horario es menor a 11 hs.
-		
+	//Si el horario es menor a hora limite
+		//Trae la hora límite--------------------
+	$result = mysql_query("SELECT horaLimite from parametros", $link);
+	$horaMax = mysql_result($result, 0);
+	//----------------------------------------
 		//Si el $total es 1
 		if($row[0]==1){ 
 		// Si el horario es menor a las 11hs. todavia se puede dar de baja, de caso contrario no podrá
-			if($hs < 11){ 
+			if($hs <$horaMax){ 
 			?>
 			<input type="button" id="eliminarComensal" name="eliminarComensal" class="btn btn-danger" data-toggle="modal" data-target="#eliminar" value="No Asistire"></p>
 	<?php 	}
@@ -230,12 +241,14 @@ HERE;
 			  <h4 class="modal-title">Modificar Horario</h4>
 			</div>
 			<div class="modal-body">
-				<p> Ingresar el nuevo horario (ej "13:30 hs")</p>
+				<p> Ingresar el nuevo horario de almuerzo(ej "13:30 hs")</p>
 				<input id="horarioalmuerzo" name="horarioalmuerzo" type="text" class="form-control input-md" >
-		
+				
+				<p> Ingresar el nuevo horario l&acuteimite para confirmar asistencia (ej "11:00")</p>
+				<input id="horarioMaximo" name="horarioMaximo" type="text" class="form-control input-md" >
 			</div>
 			<div class="modal-footer">
-				<input class="btn btn-info" name="modificarHorarioAlmuerzo" type="submit" value="ModificarHorarioAlmuerzo" onclick="modificarHorarioAlmuerzo();location.href='index.php'">
+				<input class="btn btn-info" name="modificarHorarioAlmuerzo" type="submit" value="Modificar Horarios" onclick="modificarHorarioAlmuerzo();location.href='index.php'">
 			</div>
 		  </div>
 		</div>

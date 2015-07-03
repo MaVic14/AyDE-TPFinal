@@ -37,6 +37,10 @@ $booleanhorario=false;
 $queryAsistencia = null;
 $hs = null;
 
+ $result = mysql_query("SELECT horaLimite from parametros", $link);
+$horaMax = mysql_result($result, 0);
+
+
 //Se obtienen los datos y se ingresan en la variable
 $result = mysql_query("SELECT CURTIME()");
 
@@ -44,7 +48,9 @@ while($row=mysql_fetch_array($result)){
 	$hs = ($row["CURTIME()"]);
 }
 
-$hs = "10:00:00"; //agrede
+//$hs = "10:00:00"; //agrede
+echo "$hs";
+echo "$horaMax";
 //Se obtiene los datos de la query en la variable $resultEmpleados
 $resultEmpleados = mysql_query("SELECT * FROM EMPLEADOS where NOMBRE = '".$result."'", $link);
 //Lee el primer registro del $resultEmpleados y lo almacena en la variable 
@@ -52,9 +58,9 @@ $row = mysql_fetch_row($resultEmpleados);
 
 // Consulta los datos de esa variable y los ingresa como Bienvenida al sistema
 if($row[1] != null){
-	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1])."</h3>";	
+	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1])."</h3><br>";	
 }else{
-	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".$user."</h3>";	
+	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".$user."</h3><br>";	
 ?>
 	<!-- Muestra dos alert para el ingreso de comensales externos y el siguiente para el hroario -->
 	<html lang="en">
@@ -87,8 +93,8 @@ if($row[1] != null){
 	// phpinfo();
 	// Se verifica el horario para aquellos comensales que se inscriban 
 	$hs = $hs + '';
-	// Si el horario es mayor a 11.
-	if($hs > 11){
+	// Si el horario es mayor a hora límite
+	if($hs > $horaMax){
 	$booleanhorario=true;
 	?>
 	<html lang="en">  
@@ -109,8 +115,8 @@ if($row[1] != null){
 	<script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>  
 	</body>  
 	</html>
-	<?php //echo "<br>";
-	// Si el horario es menor a 11
+	<?php echo "<br>";
+	// Si el horario es menor a la hora límite
 	} else {
 	?>
 	<html lang="en">  
@@ -126,17 +132,15 @@ if($row[1] != null){
 	
 	<div class="alert alert-success">  
 	<a class="close" data-dismiss="alert">×</a>  
-	<p><strong>¡Atencion!</strong> Tiene tiempo hasta las 11am. para darse de ALTA/BAJA </p>
+	<p><strong>¡Atencion!</strong> Tiene tiempo hasta las <? echo $horaMax?> hs. para darse de ALTA/BAJA </p>
 	</div>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/jquery.js"></script>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>  
 	</body>  
 	</html>
 	
-	<?php 
-	//echo "<br>";
-	$result = mysql_query("SELECT horarioalmuerzo FROM parametros");
-	echo "<h4 style=\"color:blue\">El horario de almuerzo será a las </em></u> ".mysql_result($result, 0)."</h4>";
+	<?php echo "<br>";
+	
 	
 	}
 
