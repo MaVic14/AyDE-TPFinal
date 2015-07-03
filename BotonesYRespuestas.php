@@ -77,16 +77,30 @@
 	</script><?php
 	if(isset($_POST["modificarMenu"])){
 	mysql_query("UPDATE comidas set PLATO='$_POST[plato]' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
-		if (isset($_REQUEST['guarnicion'])){
-		mysql_query("UPDATE comidas set GUARNICION='Ensaladas o Arroz' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
-		}else{
-		mysql_query("UPDATE comidas set GUARNICION='' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
-		}
-		}
 	?><script> alert ("Cambio de menu realizado con exito");
-	}
-	</script>
+	<?php
+		if (isset($_REQUEST['guarnicion'])){
+				mysql_query("UPDATE comidas set GUARNICION='Ensaladas o Arroz' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
+			}else{
+				mysql_query("UPDATE comidas set GUARNICION='' WHERE LETRADIA='$_POST[dia]'",$link) or die(misql_error());
+				}
+		
+		}
+		?>
+
+		
+ 
+				</script><?php
+				if(isset($_POST["modificarHorarioAlmuerzo"])){
+				mysql_query("UPDATE parametros set horarioalmuerzo='$_POST[horarioalmuerzo]' ",$link) or die(misql_error());
+				echo '<script type="text/javascript">alert("Cambio de Horario realizado con exito"); </script>';
+					}
+			?>
+
+
 <?php
+
+
 	// Se obtienen los datos de las comidas, dependiendo el dia	
 	$result = mysql_query("SELECT * FROM comidas where numeroDia = $numeroDia", $link);
 	// Setea los platos dependiendo el dia
@@ -161,6 +175,7 @@ HERE;
 	<!-- Si el usuario es Sergio, mostrara modificar menu -->
 	<?php 
 		if($user == 'Sergio'){ ?>
+		<input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalhorario" value="Modificar Horario de Almuerzo">
 	<input type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" value="Modificar Menu">
     <?php } ?>
 	<!-- La opcion de Asistire y con comensales pertenece a todos los registrados, como también darse de baja -->
@@ -200,11 +215,32 @@ HERE;
 				<input type="checkbox" name="guarnicion"> Permite guarnici&oacuten </br>
 			</div>
 			<div class="modal-footer">
-				<input class="btn btn-info" name="modificarMenu" type="submit" value="Modificar" onclick="modificarMenu()">
+				<input class="btn btn-info" name="modificarMenu" type="submit" value="Modificar" onclick="modificarMenu();location.href='index.php'">
 			</div>
 		  </div>
 		</div>
 	</div>
+	
+	<!-- Abre el pop Up al Modificar el horario -->
+	<div class="modal fade" id="myModalhorario" role="dialog">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Modificar Horario</h4>
+			</div>
+			<div class="modal-body">
+				<p> Ingresar el nuevo horario (ej "13:30 hs")</p>
+				<input id="horarioalmuerzo" name="horarioalmuerzo" type="text" class="form-control input-md" >
+		
+			</div>
+			<div class="modal-footer">
+				<input class="btn btn-info" name="modificarHorarioAlmuerzo" type="submit" value="ModificarHorarioAlmuerzo" onclick="modificarHorarioAlmuerzo();location.href='index.php'">
+			</div>
+		  </div>
+		</div>
+	</div>
+	
 	
 	<div class="modal fade" id="eliminar" role="dialog">
 		<div class="modal-dialog">
@@ -234,7 +270,7 @@ HERE;
 				<?php } ?>
 			</div>
 			<div class="modal-footer">
-				<input class="btn btn-danger" name="eliminarComensal" type="submit" value="Eliminar" onclick="darDeBaja()">
+				<input class="btn btn-danger" name="eliminarComensal" type="submit" value="Eliminar" onclick="darDeBaja();location.href='index.php'">
 			</div>
 		  </div>
 		</div>
