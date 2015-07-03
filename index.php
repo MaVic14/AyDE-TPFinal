@@ -14,7 +14,6 @@
 </html>
 
 <form action="" method="post" class="asistencia">
-<br>
 	<p align="right">
 	<a href ="logueo.php" input class="btn btn-warning" type="submit">Desloguearse</a></p>
 </form>
@@ -53,9 +52,9 @@ $row = mysql_fetch_row($resultEmpleados);
 
 // Consulta los datos de esa variable y los ingresa como Bienvenida al sistema
 if($row[1] != null){
-	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1])."</h3><br>";	
+	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".ucfirst($row[1])."</h3>";	
 }else{
-	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".$user."</h3><br>";	
+	echo "<h3 align=\"center\" style=\"color:gray\"> Bienvenido ".$user."</h3>";	
 ?>
 	<!-- Muestra dos alert para el ingreso de comensales externos y el siguiente para el hroario -->
 	<html lang="en">
@@ -110,7 +109,7 @@ if($row[1] != null){
 	<script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>  
 	</body>  
 	</html>
-	<?php echo "<br>";
+	<?php //echo "<br>";
 	// Si el horario es menor a 11
 	} else {
 	?>
@@ -134,7 +133,11 @@ if($row[1] != null){
 	</body>  
 	</html>
 	
-	<?php echo "<br>";
+	<?php 
+	//echo "<br>";
+	$result = mysql_query("SELECT horarioalmuerzo FROM parametros");
+	echo "<h4 style=\"color:blue\">El horario de almuerzo será a las </em></u> ".mysql_result($result, 0)."</h4>";
+	
 	}
 
 }
