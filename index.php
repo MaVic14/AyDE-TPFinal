@@ -49,8 +49,7 @@ while($row=mysql_fetch_array($result)){
 }
 
 //$hs = "10:00:00"; //agrede
-echo "$hs";
-echo "$horaMax";
+
 //Se obtiene los datos de la query en la variable $resultEmpleados
 $resultEmpleados = mysql_query("SELECT * FROM EMPLEADOS where NOMBRE = '".$result."'", $link);
 //Lee el primer registro del $resultEmpleados y lo almacena en la variable 
@@ -132,7 +131,7 @@ if($row[1] != null){
 	
 	<div class="alert alert-success">  
 	<a class="close" data-dismiss="alert">×</a>  
-	<p><strong>¡Atencion!</strong> Tiene tiempo hasta las <? echo $horaMax?> hs. para darse de ALTA/BAJA </p>
+	<p><strong>¡Atencion!</strong> Tiene tiempo hasta las <?php echo $horaMax?> hs. para darse de ALTA/BAJA </p>
 	</div>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/jquery.js"></script>  
 	<script src="twitter-bootstrap-v2/docs/assets/js/bootstrap-alert.js"></script>  

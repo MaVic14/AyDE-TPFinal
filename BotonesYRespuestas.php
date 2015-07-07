@@ -244,7 +244,7 @@ HERE;
 				<p> Ingresar el nuevo horario de almuerzo(ej "13:30 hs")</p>
 				<input id="horarioalmuerzo" name="horarioalmuerzo" type="text" class="form-control input-md" >
 				
-				<p> Ingresar el nuevo horario l&acuteimite para confirmar asistencia (ej "11:00")</p>
+				<p> Ingresar el nuevo horario l&iacutemite para confirmar asistencia (ej "11:00")</p>
 				<input id="horarioMaximo" name="horarioMaximo" type="text" class="form-control input-md" >
 			</div>
 			<div class="modal-footer">
